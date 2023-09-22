@@ -1,0 +1,44 @@
+-- First Query
+
+Select * From Customer
+Where Name LIKE 'Joe%';
+
+
+-- Second Query
+
+Select DISTINCIT Prd.Name
+From Customer Cust
+Join Order Ord ON
+Cust.CustomerId = Ord.CustomerId
+Join OrderProduct OrdPrd ON
+Ord.OrderId = OrdPrd.OrderId
+Join Product Prd ON
+OrdPrd.ProductId = Prd.ProductId
+Where Cust.Name = 'Joe' AND Ord.CreatedAt > '2016-11-01'
+
+-- Third Query
+
+Select Cust.Name AS CustomerName, 
+SUM(Prd.Price) AS TotalAmmountSpent
+From Customer Cust
+Join Order Ord ON 
+Cust.CustomerId = Ord.CustomerId
+Join OrderProduct OrdPrd ON
+Ord.OrderId = OrdPrd.OrderId
+Join Product Prd ON
+OrdPrd.ProductId = Prd.ProductId
+Where Cust.Name = 'Joe' 
+GROUP BY Cust.Name
+
+
+-- Fourth Query
+
+Select Cust.Name AS CustomerName,
+COUNT(DISTINCT Ord.OrderId) AS OrderCount
+From Customer Cust
+Join Order Ord ON
+Cust.CustomerId = Ord.CustomerId
+Join OrderProduct OrdPrd ON
+Ord.OrderId = OrdPrd.OrderId
+GROUP BY Cust.Name
+HAVING COUNT(DISTINCIT OrdPrd.ProductId) > 1
